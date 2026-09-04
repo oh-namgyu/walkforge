@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "walkforge walkthrough spec",
+  "description": "Structural shape of a walkforge walkthrough spec. Graph-level rules (reachability, dead ends, duplicate labels) are checked separately by walkforge and are intentionally not expressed here.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "initial", "states", "transitions"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Walkthrough title shown as the document heading.",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional introduction paragraph for the walkthrough.",
+      "maxLength": 2000
+    },
+    "initial": {
+      "type": "string",
+      "description": "Id of the state the walkthrough starts in.",
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "states": {
+      "type": "array",
+      "description": "Every step of the walkthrough.",
+      "minItems": 1,
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "description"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Stable slug used to reference this state.",
+            "minLength": 1,
+            "maxLength": 40,
+            "pattern": "^[a-z0-9][a-z0-9_-]*$"
+          },
+          "name": {
+            "type": "string",
+            "description": "Short human readable label for the state.",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "description": {
+            "type": "string",
+            "description": "What the reader sees or does in this state.",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "annotation": {
+            "type": "string",
+            "description": "Optional side note, caveat or tip for this state.",
+            "maxLength": 2000
+          },
+          "is_end": {
+            "type": "boolean",
+            "description": "True when the walkthrough may finish in this state.",
+            "default": false
+          }
+        }
+      }
+    },
+    "transitions": {
+      "type": "array",
+      "description": "Directed moves between states.",
+      "minItems": 0,
+      "maxItems": 200,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["from", "to", "label"],
+        "properties": {
+          "from": {
+            "type": "string",
+            "description": "Id of the source state.",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "to": {
+            "type": "string",
+            "description": "Id of the target state.",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "label": {
+            "type": "string",
+            "description": "Choice text presented to the reader.",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "description": {
+            "type": "string",
+            "description": "Optional explanation of what this choice means.",
+            "maxLength": 2000
+          }
+        }
+      }
+    }
+  }
+}

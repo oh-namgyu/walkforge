@@ -1,0 +1,165 @@
+{
+  "title": "First week for a new engineer",
+  "description": "What the first week actually looks like, including the parts where you are stuck waiting for an account.",
+  "initial": "offer_accepted",
+  "states": [
+    {
+      "id": "offer_accepted",
+      "name": "Offer accepted",
+      "description": "You have signed, but you do not start yet. Someone on the team is quietly ordering hardware and filing access requests on your behalf."
+    },
+    {
+      "id": "prepare_laptop",
+      "name": "Hardware on the way",
+      "description": "A laptop is being provisioned and shipped. Your accounts exist on paper but none of them work yet.",
+      "annotation": "If nothing has arrived two days before your start date, say so early. Shipping is the most common cause of a lost first day."
+    },
+    {
+      "id": "day_one_setup",
+      "name": "Day one setup",
+      "description": "You are working through the setup checklist: sign in to mail and chat, pull the main repository, and install the toolchain."
+    },
+    {
+      "id": "blocked_on_access",
+      "name": "Blocked on an account",
+      "description": "One system will not let you in. You cannot finish setup, and it is not obvious whether the request was never filed or simply not approved."
+    },
+    {
+      "id": "ask_buddy",
+      "name": "Ask your onboarding buddy",
+      "description": "You are asking the person assigned to you rather than guessing. They have seen this failure before and know which queue the request is sitting in.",
+      "annotation": "Asking after twenty minutes of being stuck is normal here, not a sign you are struggling."
+    },
+    {
+      "id": "meet_the_team",
+      "name": "Meet the team",
+      "description": "Short introductions with the people you will work with. You are learning who owns what, and who to ask when something breaks."
+    },
+    {
+      "id": "read_the_docs",
+      "name": "Read the team docs",
+      "description": "You are reading the architecture overview and the on-call runbook, mostly to build a map rather than to memorise anything."
+    },
+    {
+      "id": "run_locally",
+      "name": "Run the service locally",
+      "description": "You are getting the service and its test suite running on your own machine. This is the first real signal that your setup is complete."
+    },
+    {
+      "id": "first_task",
+      "name": "Pick up a first task",
+      "description": "You have a small, well-scoped ticket chosen to touch the build, the tests and the review process rather than to be useful."
+    },
+    {
+      "id": "open_pull_request",
+      "name": "Open a pull request",
+      "description": "Your change is up for review. The point is to exercise the pipeline end to end and to meet your reviewers."
+    },
+    {
+      "id": "address_review",
+      "name": "Address review comments",
+      "description": "A reviewer left comments. You are separating the ones that change behaviour from the ones about house style, and answering both."
+    },
+    {
+      "id": "week_one_retro",
+      "name": "First week retro",
+      "description": "You shipped something small and you know how the work flows. You are writing down every place the onboarding docs were wrong while you can still see it.",
+      "annotation": "A new joiner is the only person who can see the gaps in onboarding. Fix the docs now; in a month you will not notice them.",
+      "is_end": true
+    },
+    {
+      "id": "handoff_to_manager",
+      "name": "Hand it to your manager",
+      "description": "The blocker is organisational rather than technical, and it is not yours to solve. Your manager takes it from here while you work on something else.",
+      "is_end": true
+    }
+  ],
+  "transitions": [
+    {
+      "from": "offer_accepted",
+      "to": "prepare_laptop",
+      "label": "Confirm your start date"
+    },
+    {
+      "from": "prepare_laptop",
+      "to": "day_one_setup",
+      "label": "The laptop arrives"
+    },
+    {
+      "from": "day_one_setup",
+      "to": "meet_the_team",
+      "label": "Every account works"
+    },
+    {
+      "from": "day_one_setup",
+      "to": "blocked_on_access",
+      "label": "One system rejects your login"
+    },
+    {
+      "from": "blocked_on_access",
+      "to": "day_one_setup",
+      "label": "IT fixed it within the hour"
+    },
+    {
+      "from": "blocked_on_access",
+      "to": "ask_buddy",
+      "label": "Nothing happened after twenty minutes"
+    },
+    {
+      "from": "ask_buddy",
+      "to": "day_one_setup",
+      "label": "Your buddy gets you in"
+    },
+    {
+      "from": "ask_buddy",
+      "to": "handoff_to_manager",
+      "label": "Still blocked after a full day"
+    },
+    {
+      "from": "meet_the_team",
+      "to": "read_the_docs",
+      "label": "Introductions are done"
+    },
+    {
+      "from": "read_the_docs",
+      "to": "run_locally",
+      "label": "You know what the team owns"
+    },
+    {
+      "from": "run_locally",
+      "to": "first_task",
+      "label": "The test suite passes locally"
+    },
+    {
+      "from": "run_locally",
+      "to": "ask_buddy",
+      "label": "The build fails only on your machine",
+      "description": "A setup problem, not a code problem. Someone has hit it before."
+    },
+    {
+      "from": "first_task",
+      "to": "open_pull_request",
+      "label": "You have something worth reviewing"
+    },
+    {
+      "from": "open_pull_request",
+      "to": "address_review",
+      "label": "A reviewer left comments"
+    },
+    {
+      "from": "open_pull_request",
+      "to": "week_one_retro",
+      "label": "It merges as it is"
+    },
+    {
+      "from": "address_review",
+      "to": "open_pull_request",
+      "label": "Push the changes"
+    },
+    {
+      "from": "address_review",
+      "to": "handoff_to_manager",
+      "label": "The task turned out to be much larger"
+    }
+  ]
+}

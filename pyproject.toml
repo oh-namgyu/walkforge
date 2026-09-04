@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "walkforge"
+version = "0.1.0"
+description = "Turn a state-machine spec into a self-contained interactive walkthrough page."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "oh-namgyu" }]
+keywords = ["walkthrough", "state-machine", "documentation", "explorable", "runbook"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Documentation",
+    "Topic :: Software Development :: Documentation",
+]
+dependencies = []
+
+[project.optional-dependencies]
+llm = ["anthropic"]
+
+[project.scripts]
+walkforge = "walkforge.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/oh-namgyu/walkforge"
+Issues = "https://github.com/oh-namgyu/walkforge/issues"
+
+[tool.setuptools]
+packages = ["walkforge"]
+
+[tool.setuptools.package-data]
+walkforge = ["spec_schema.json"]

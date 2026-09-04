@@ -1,0 +1,136 @@
+{
+  "title": "Build it or buy it",
+  "description": "How a team decides whether to buy a tool, build one, or stop and come back later.",
+  "initial": "frame_the_need",
+  "states": [
+    {
+      "id": "frame_the_need",
+      "name": "Frame the need",
+      "description": "Someone has said the team needs a thing. Before comparing anything, you are writing down the problem in terms of what people cannot do today."
+    },
+    {
+      "id": "clarify_requirements",
+      "name": "Separate must from nice",
+      "description": "You are splitting the wish list into requirements that would rule an option out and preferences that would not. Only the first kind decides anything.",
+      "annotation": "If every requirement is a must, the list has not been thought about yet."
+    },
+    {
+      "id": "survey_vendors",
+      "name": "Survey the market",
+      "description": "You are looking at what already exists, including the boring option nobody is excited about, and checking each against the must-have list."
+    },
+    {
+      "id": "run_a_trial",
+      "name": "Run a trial",
+      "description": "One candidate looks close enough to test with real data and real users, on the workflow you actually care about rather than the demo."
+    },
+    {
+      "id": "check_compliance",
+      "name": "Check the constraints",
+      "description": "The tool works. Now legal, security and procurement look at data residency, access control and the contract before anyone commits.",
+      "annotation": "Start this earlier than feels necessary. It is the step that most often adds weeks."
+    },
+    {
+      "id": "no_vendor_fits",
+      "name": "Nothing on the market fits",
+      "description": "Every candidate fails a must-have, or the ones that pass are priced for a much larger company. Building is now a serious option."
+    },
+    {
+      "id": "estimate_build_cost",
+      "name": "Estimate the build",
+      "description": "You are costing the build honestly: not just the first version, but the on-call, the migrations and the person who owns it in two years."
+    },
+    {
+      "id": "buy_it",
+      "name": "Buy it",
+      "description": "A vendor meets the must-haves and clears the constraints. You are signing, planning the rollout, and writing down what would make you reconsider.",
+      "is_end": true
+    },
+    {
+      "id": "build_it",
+      "name": "Build it",
+      "description": "The need is specific enough and the team has the capacity to own it. You are naming the owner before writing any code.",
+      "is_end": true
+    },
+    {
+      "id": "defer_the_decision",
+      "name": "Defer the decision",
+      "description": "Neither option is justified right now. You are recording what you learned and the condition that would restart this, so the next person does not repeat the survey.",
+      "annotation": "A deferred decision with written reasons is a real outcome. An undocumented one gets rediscovered every six months.",
+      "is_end": true
+    }
+  ],
+  "transitions": [
+    {
+      "from": "frame_the_need",
+      "to": "clarify_requirements",
+      "label": "Write down what must be true"
+    },
+    {
+      "from": "clarify_requirements",
+      "to": "survey_vendors",
+      "label": "The must-haves are agreed"
+    },
+    {
+      "from": "clarify_requirements",
+      "to": "defer_the_decision",
+      "label": "The team cannot agree on the problem"
+    },
+    {
+      "from": "survey_vendors",
+      "to": "run_a_trial",
+      "label": "At least one candidate looks close"
+    },
+    {
+      "from": "survey_vendors",
+      "to": "no_vendor_fits",
+      "label": "Everything fails a must-have"
+    },
+    {
+      "from": "run_a_trial",
+      "to": "check_compliance",
+      "label": "The trial went well"
+    },
+    {
+      "from": "run_a_trial",
+      "to": "no_vendor_fits",
+      "label": "The trial exposed a blocker"
+    },
+    {
+      "from": "check_compliance",
+      "to": "buy_it",
+      "label": "Legal and security sign off"
+    },
+    {
+      "from": "check_compliance",
+      "to": "estimate_build_cost",
+      "label": "A constraint rules the vendor out"
+    },
+    {
+      "from": "no_vendor_fits",
+      "to": "estimate_build_cost",
+      "label": "Cost out building it instead"
+    },
+    {
+      "from": "no_vendor_fits",
+      "to": "clarify_requirements",
+      "label": "Revisit which requirements are really must-haves",
+      "description": "Often one must-have is doing all the ruling out."
+    },
+    {
+      "from": "estimate_build_cost",
+      "to": "build_it",
+      "label": "The team can own this"
+    },
+    {
+      "from": "estimate_build_cost",
+      "to": "defer_the_decision",
+      "label": "The true cost is too high for now"
+    },
+    {
+      "from": "estimate_build_cost",
+      "to": "survey_vendors",
+      "label": "Look again with a bigger budget"
+    }
+  ]
+}

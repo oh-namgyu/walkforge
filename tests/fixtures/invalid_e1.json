@@ -1,0 +1,24 @@
+{
+  "title": "Broken walkthrough",
+  "initial": "nowhere",
+  "states": [
+    {
+      "id": "start",
+      "name": "Start here",
+      "description": "The only step before the end."
+    },
+    {
+      "id": "done",
+      "name": "Done",
+      "description": "Nothing left to do.",
+      "is_end": true
+    }
+  ],
+  "transitions": [
+    {
+      "from": "start",
+      "to": "done",
+      "label": "Finish"
+    }
+  ]
+}

@@ -1,0 +1,173 @@
+{
+  "title": "Production incident response",
+  "description": "A drill for the engineer holding the pager: from the first alert to a closed incident.",
+  "initial": "page_received",
+  "states": [
+    {
+      "id": "page_received",
+      "name": "Page received",
+      "description": "A monitor fired and your phone is buzzing. Nobody else has picked this up yet, and the escalation timer is running.",
+      "annotation": "Acknowledge within five minutes, even if you have no idea what is wrong yet."
+    },
+    {
+      "id": "acknowledge",
+      "name": "Acknowledge the page",
+      "description": "You have claimed the incident. The escalation timer stops and the rest of the team can see who is driving."
+    },
+    {
+      "id": "assess_impact",
+      "name": "Assess the impact",
+      "description": "You are reading the dashboards and the recent deploy log, deciding whether real users are affected right now or whether a threshold was simply crossed."
+    },
+    {
+      "id": "watch_metrics",
+      "name": "Watch and wait",
+      "description": "Nothing is clearly broken. You are watching the error rate and latency graphs for fifteen minutes before deciding anything.",
+      "annotation": "Set a timer. Watching forever is how a small incident becomes a long one."
+    },
+    {
+      "id": "declare_incident",
+      "name": "Declare an incident",
+      "description": "You have confirmed user impact and said so out loud in the incident channel. From here the work is coordinated rather than solo."
+    },
+    {
+      "id": "gather_responders",
+      "name": "Gather responders",
+      "description": "You are pulling in the people who own the failing system and naming who does what, so two engineers do not fix the same thing twice."
+    },
+    {
+      "id": "escalate",
+      "name": "Escalate",
+      "description": "Nobody in the room can move the incident forward. You are paging a senior engineer or the service owner and saying plainly what you have tried."
+    },
+    {
+      "id": "mitigate",
+      "name": "Mitigate",
+      "description": "You are stopping the bleeding: shifting traffic, disabling the new feature flag, or scaling the starved component.",
+      "annotation": "Mitigation comes before diagnosis. Understanding why can wait until users are served again."
+    },
+    {
+      "id": "rollback",
+      "name": "Roll back the deploy",
+      "description": "The mitigation did not hold, and the suspect change is recent. You are putting the previous known-good build back in place."
+    },
+    {
+      "id": "monitor_recovery",
+      "name": "Monitor recovery",
+      "description": "Traffic is flowing again and the graphs are pointing the right way. You are watching long enough to be sure it holds."
+    },
+    {
+      "id": "write_postmortem",
+      "name": "Write the postmortem",
+      "description": "The incident is over. You are recording the timeline, the contributing causes and the follow-up work while the details are fresh.",
+      "annotation": "Blameless means naming the system that let this happen, not the person who pressed the button.",
+      "is_end": true
+    },
+    {
+      "id": "close_as_noise",
+      "name": "Close as alert noise",
+      "description": "No user was ever affected and the alert fired on a threshold that is too tight. You are closing the incident and filing a ticket to fix the alert.",
+      "is_end": true
+    },
+    {
+      "id": "handover",
+      "name": "Hand over to the next shift",
+      "description": "The incident is still open but your shift is done. You are writing a handover note covering what is known, what was tried and what the next person should do first.",
+      "is_end": true
+    }
+  ],
+  "transitions": [
+    {
+      "from": "page_received",
+      "to": "acknowledge",
+      "label": "Acknowledge the page",
+      "description": "Claim the incident so everyone knows who is driving."
+    },
+    {
+      "from": "page_received",
+      "to": "close_as_noise",
+      "label": "This alert is a known false positive"
+    },
+    {
+      "from": "acknowledge",
+      "to": "assess_impact",
+      "label": "Open the dashboards"
+    },
+    {
+      "from": "assess_impact",
+      "to": "declare_incident",
+      "label": "Users are affected right now"
+    },
+    {
+      "from": "assess_impact",
+      "to": "watch_metrics",
+      "label": "No user impact yet"
+    },
+    {
+      "from": "watch_metrics",
+      "to": "declare_incident",
+      "label": "The graphs got worse"
+    },
+    {
+      "from": "watch_metrics",
+      "to": "close_as_noise",
+      "label": "An hour passed with nothing"
+    },
+    {
+      "from": "declare_incident",
+      "to": "gather_responders",
+      "label": "Pull in the service owners"
+    },
+    {
+      "from": "gather_responders",
+      "to": "mitigate",
+      "label": "Someone owns the fix"
+    },
+    {
+      "from": "gather_responders",
+      "to": "escalate",
+      "label": "Nobody here can take it"
+    },
+    {
+      "from": "escalate",
+      "to": "mitigate",
+      "label": "A senior engineer takes over the fix"
+    },
+    {
+      "from": "escalate",
+      "to": "handover",
+      "label": "Your shift is ending"
+    },
+    {
+      "from": "mitigate",
+      "to": "monitor_recovery",
+      "label": "The error rate is falling"
+    },
+    {
+      "from": "mitigate",
+      "to": "rollback",
+      "label": "The mitigation did not help"
+    },
+    {
+      "from": "rollback",
+      "to": "monitor_recovery",
+      "label": "The previous build is live again"
+    },
+    {
+      "from": "rollback",
+      "to": "escalate",
+      "label": "The rollback failed too"
+    },
+    {
+      "from": "monitor_recovery",
+      "to": "write_postmortem",
+      "label": "Metrics held for thirty minutes"
+    },
+    {
+      "from": "monitor_recovery",
+      "to": "mitigate",
+      "label": "The symptoms came back",
+      "description": "Recovery was partial: treat it as a live incident again."
+    }
+  ]
+}
