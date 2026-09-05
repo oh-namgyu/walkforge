@@ -1,6 +1,11 @@
 # walkforge
 
-> **한글 요약** — 상태 기계 명세(JSON) 하나를 넣으면, 독자가 한 단계씩 눌러가며
+[![CI](https://github.com/oh-namgyu/walkforge/actions/workflows/ci.yml/badge.svg)](https://github.com/oh-namgyu/walkforge/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+> **한글 요약**
+>
+> 상태 기계 명세(JSON) 하나를 넣으면, 독자가 한 단계씩 눌러가며
 > 따라갈 수 있는 **단일 HTML 워크스루 페이지**를 만들어 줍니다. 왼쪽은 현재 위치가
 > 표시되는 그래프, 오른쪽은 지금 상황 설명과 선택지 버튼입니다. 표준 라이브러리만
 > 쓰고 빌드 단계가 없으며, 생성된 페이지는 네트워크 요청을 전혀 하지 않습니다.
@@ -149,7 +154,7 @@ allowed.
 | Exit | Meaning |
 |---|---|
 | 0 | success |
-| 1 | a spec failed validation, or the model could not produce a valid one |
+| 1 | a spec failed validation, the model could not produce a valid one, or a file could not be written — including `init` refusing to overwrite an existing file |
 | 2 | a usage problem: bad arguments, input over 8,000 characters, no API key, `anthropic` not installed |
 
 `--model` overrides the model id; so does the `WALKFORGE_MODEL` environment
@@ -210,6 +215,6 @@ variable. The default is `claude-opus-5`.
 
 ## License
 
-MIT — see [LICENSE](LICENSE). Security notes: [SECURITY.md](SECURITY.md).
+MIT — see [LICENSE](LICENSE). Security policy: [SECURITY.md](SECURITY.md).
 A ready-made Claude Code skill for writing specs lives in
 [`examples/claude-skill/walkthrough`](examples/claude-skill/walkthrough).
